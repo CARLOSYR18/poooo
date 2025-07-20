@@ -1,0 +1,1085 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Universidad Jesus Pari Lujan Carrion</title>
+    <link rel="stylesheet" href="https://i.postimg.cc/HLFL3qxK/466079839-122129913590439225-422388642053743968-n-1.jpg">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root {
+            --primary: #1a365d;
+            --secondary: #2c5282;
+            --accent: #ecc94b;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            scroll-behavior: smooth;
+        }
+        
+        .hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), 
+                        url('https://i.postimg.cc/90ZwGWYJ/487980805-2698878613834013-1754575642248618034-n.jpg');
+            background-size: cover;
+            background-position: center;
+            min-height: 80vh;
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        
+        .testimonial-card {
+            transition: all 0.3s ease;
+        }
+        
+        .testimonial-card:hover {
+            transform: scale(1.05);
+        }
+        
+        .floating {
+            animation: floating 3s ease-in-out infinite;
+        }
+        
+        @keyframes floating {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+            100% { transform: translateY(0px); }
+        }
+
+        /* Estilos para el modal del examen */
+        .exam-modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.7);
+            display: flex; /* Added to center content */
+            align-items: center; /* Vertical centering */
+            justify-content: center; /* Horizontal centering */
+        }
+        
+        .exam-modal-content {
+            background-color: #fefefe;
+            margin: auto; /* Adjusted to auto for centering with flex */
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            width: 90%;
+            max-width: 700px;
+            animation: modalopen 0.4s;
+        }
+        
+        @keyframes modalopen {
+            from {opacity: 0; transform: translateY(-50px);}
+            to {opacity: 1; transform: translateY(0);}
+        }
+        
+        .close-exam {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        
+        .close-exam:hover {
+            color: black;
+        }
+        
+        /* Estilos para el examen dentro del modal */
+        .exam-question {
+            background: #f8fafc;
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .exam-result {
+            font-size: 1.25rem;
+            font-weight: bold;
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            text-align: center;
+            margin-top: 2rem;
+            display: none;
+        }
+        
+        .exam-passed {
+            background-color: #d1fae5;
+            color: #065f46;
+            animation: dance 0.5s ease infinite alternate;
+        }
+        
+        .exam-failed {
+            background-color: #fee2e2;
+            color: #991b1b;
+        }
+        
+        @keyframes dance {
+            0% { transform: rotate(-2deg); }
+            100% { transform: rotate(2deg); }
+        }
+
+        /* Estilos para la sección de programas (fondo general) */
+        #programas {
+            background-color: #f8fafc; /* Color de fondo neutro para la sección general */
+            color: #1a365d; /* Color de texto principal para la sección */
+        }
+
+        /* Clase genérica para el fondo de cada tarjeta de programa */
+        .program-card-bg {
+            background-size: cover; /* La imagen cubrirá todo el espacio */
+            background-position: center; /* La imagen se centrará */
+            background-repeat: no-repeat; /* Evita que la imagen se repita */
+            position: relative; /* Necesario para la capa de superposición */
+            overflow: hidden; /* Asegura que la imagen no se desborde */
+        }
+
+        /* Capa de superposición para mejorar el contraste del texto sobre la imagen */
+        .program-card-bg::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4); /* Capa oscura semitransparente */
+            z-index: 1; /* Asegura que la capa esté sobre la imagen pero debajo del contenido */
+        }
+
+        /* Asegura que el contenido de la tarjeta esté sobre la capa de superposición */
+        .program-card-bg > * {
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Asegura que los títulos y textos dentro de programas sean del color principal */
+        #programas h2,
+        #programas p {
+            color: #1a365d; /* Color de texto principal */
+        }
+
+        /* Ajusta el color de los enlaces dentro de programas para que sean visibles */
+        #programas a {
+            color: var(--primary); /* Usando el color primario definido en :root */
+        }
+        #programas a:hover {
+            color: var(--secondary); /* Un tono más oscuro del primario al pasar el ratón */
+        }
+
+        /* Ajusta el fondo de las tarjetas de programas para que sigan siendo blancas */
+        #programas .bg-white {
+            background-color: white; /* Mantiene las tarjetas de programas blancas */
+        }
+        #programas .bg-white h3,
+        #programas .bg-white p,
+        #programas .bg-white span {
+            color: #1a365d; /* Vuelve el color del texto de las tarjetas al primario */
+        }
+        #programas .bg-white a {
+            color: #1a365d; /* Vuelve el color de los enlaces de las tarjetas al primario */
+        }
+        #programas .bg-white a:hover {
+            color: #2c5282; /* Vuelve el color de los enlaces de las tarjetas al secundario */
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Header -->
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <div class="container mx-auto px-6 py-3">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center">
+                    <!-- Logo en el encabezado -->
+                    <img src="https://i.postimg.cc/HLFL3qxK/466079839-122129913590439225-422388642053743968-n-1.jpg" 
+                    alt="Logo" 
+                    style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover;">
+                    <div>
+                        <h1 class="text-xl font-bold text-gray-800">Jesus Pari Lujan Carrion</h1>
+                        <p class="text-sm text-gray-600">Universidad de Excelencia</p>
+                    </div>
+                </div>
+                
+                <nav class="hidden md:flex space-x-8">
+                    <a href="#inicio" class="text-blue-900 font-medium hover:text-blue-700">Inicio</a>
+                    <a href="#nosotros" class="text-gray-700 hover:text-blue-900">Nosotros</a>
+                    <a href="#programas" class="text-gray-700 hover:text-blue-900">Programas</a>
+                    <a href="#admision" class="text-gray-700 hover:text-blue-900">Admisión</a>
+                    <a id="examLink" href="#" class="text-gray-700 hover:text-blue-900">Examen Admisión</a>
+                    <a href="#contacto" class="text-gray-700 hover:text-blue-900">Contacto</a>
+                </nav>
+                
+                <button class="md:hidden focus:outline-none" id="menu-btn">
+                    <i class="fas fa-bars text-gray-700 text-2xl"></i>
+                </button>
+            </div>
+            
+            <!-- Mobile menu -->
+            <div class="md:hidden hidden mt-4" id="mobile-menu">
+                <a href="#inicio" class="block py-2 text-blue-900 font-medium">Inicio</a>
+                <a href="#nosotros" class="block py-2 text-gray-700">Nosotros</a>
+                <a href="#programas" class="block py-2 text-gray-700">Programas</a>
+                <a href="#admision" class="block py-2 text-gray-700">Admisión</a>
+                <a id="examLinkMobile" href="#" class="block py-2 text-gray-700">Examen Admisión</a>
+                <a href="#contacto" class="block py-2 text-gray-700">Contacto</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero flex items-center justify-center text-white" id="inicio">
+        <div class="container mx-auto px-6 text-center">
+            <h1 class="text-4xl md:text-6xl font-bold mb-6">Transformando Vidas a través de la Educación</h1>
+            <p class="text-xl md:text-2xl mb-8 max-w-3xl mx-auto">En la Universidad Jesus Pari Lujan Carrion, formamos líderes con valores, conocimientos y habilidades para el mundo actual.</p>
+            <div class="flex flex-col sm:flex-row justify-center gap-4">
+                <a href="#admision" class="bg-yellow-500 hover:bg-yellow-600 text-blue-900 font-bold py-3 px-8 rounded-full transition duration-300 transform hover:scale-105">Aplica Ahora</a>
+                <a href="#programas" class="bg-transparent hover:bg-blue-900 text-white font-semibold hover:text-white py-3 px-8 border border-white hover:border-transparent rounded-full transition duration-300 transform hover:scale-105">Explora Programas</a>
+                <a id="examLinkHero" href="#" class="bg-transparent hover:bg-blue-900 text-white font-semibold hover:text-white py-3 px-8 border border-white hover:border-transparent rounded-full transition duration-300 transform hover:scale-105">Examen Admisión</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="bg-blue-900 text-white py-12">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 text-center">
+                <div class="p-6">
+                    <div class="text-4xl font-bold mb-2">25+</div>
+                    <div class="text-xl">Años de Experiencia</div>
+                </div>
+                <div class="p-6">
+                    <div class="text-4xl font-bold mb-2">50+</div>
+                    <div class="text-xl">Programas Académicos</div>
+                </div>
+                <div class="p-6">
+                    <div class="text-4xl font-bold mb-2">10,000+</div>
+                    <div class="text-xl">Egresados</div>
+                </div>
+                <div class="p-6">
+                    <div class="text-4xl font-bold mb-2">95%</div>
+                    <div class="text-xl">Tasa de Empleabilidad</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="py-20 bg-white" id="nosotros">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-col md:flex-row items-center">
+                <div class="md:w-1/2 mb-10 md:mb-0">
+                    <img src="https://i.postimg.cc/HLFL3qxK/466079839-122129913590439225-422388642053743968-n-1.jpg" 
+                         alt="Estudiantes universitarios" 
+                         class="rounded-lg shadow-xl w-full h-auto object-cover">
+                </div>
+                <div class="md:w-1/2 md:pl-12">
+                    <h2 class="text-3xl md:text-4xl font-bold text-blue-900 mb-6">Nuestra Universidad</h2>
+                    <p class="text-gray-700 mb-6 leading-relaxed">
+                        Fundada en el año 2025, la Universidad Jesus Pari Lujan Carrion se ha consolidado como una institución líder en educación superior especial peruana, 
+                        comprometida con la excelencia académica de nuestros estuantes especiales , siendo nuestro frase insignia el " botame tu gaaa"
+                    </p>
+                    <p class="text-gray-700 mb-8 leading-relaxed">
+                        Nuestro modelo educativo combina teoría y práctica en las mejores empresas lideres para poder demostrar tu pontecial como especial, preparando profesionales capaces de enfrentar los desafíos del siglo XXI 
+                        con ética destacandonos de otras universides , creatividad y pensamiento crítico asi que si tu eres especial esta es tu universidad
+                    </p>
+                    <div class="space-y-4">
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0 mt-1">
+                                <div class="flex items-center justify-center h-8 w-8 rounded-full bg-blue-100 text-blue-900">
+                                    <i class="fas fa-check"></i>
+                                </div>
+                            </div>
+                            <div class="ml-3">
+                                <p class="text-gray-700 font-medium">Profesores con amplia experiencia académica y profesional</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0 mt-1">
+                                <div class="flex items-center justify-center h-8 w-8 rounded-full bg-blue-100 text-blue-900">
+                                    <i class="fas fa-check"></i>
+                                </div>
+                            </div>
+                            <div class="ml-3">
+                                <p class="text-gray-700 font-medium">Infraestructura moderna y equipamiento de última generación</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0 mt-1">
+                                <div class="flex items-center justify-center h-8 w-8 rounded-full bg-blue-100 text-blue-900">
+                                    <i class="fas fa-check"></i>
+                                </div>
+                            </div>
+                            <div class="ml-3">
+                                <p class="text-gray-700 font-medium">Programas académicos reconocidos internacionalmente</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Programs Section -->
+    <section class="py-20 bg-gray-50" id="programas">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-blue-900 mb-4">Nuestros Programas Académicos</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">Ofrecemos una amplia gama de programas diseñados para prepararte para el éxito en un mundo globalizado.</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Ingenierías -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300 card-hover">
+                    <div class="h-48 flex items-center justify-center text-white text-5xl program-card-bg" style="background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS20cCcZn5fobvAzvixE2VikbPWkEjhr8o9JQ&s');">
+                        <!-- Icono eliminado, la imagen es el fondo. Puedes añadir un ícono si lo deseas. -->
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-blue-900 mb-3">Ingeniería</h3>
+                        <p class="text-gray-600 mb-4">Formación general en ingeniería con enfoque práctico teniendo como docente a bob kchero.</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm font-medium text-blue-900">Duración: 5 años</span>
+                            <a href="#" class="text-blue-900 hover:text-blue-700 font-medium">Más información →</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300 card-hover">
+                    <div class="h-48 flex items-center justify-center text-white text-5xl program-card-bg" style="background-image : url('https://scontent.flim2-6.fna.fbcdn.net/v/t39.30808-6/515493913_122216798858249993_8922971692031015896_n.jpg?_nc_cat=108&ccb=1-7&_nc_sid=127cfc&_nc_eui2=AeEuHjCDhuW9MKqik8N7lLX7eT0ID4vUmDJ5PQgPi9SYMiuy44x9yfQ8VYzIgF-5SBvbb-ErO6-nR6C_KuRcfSqP&_nc_ohc=l9eWHkArahUQ7kNvwGKSN6g&_nc_oc=AdmLHzgSKkebHtsCy-PZqHM8KU1xjKIpnCxucMhynMeo2piTEfdiVf7DdVhIKPEpYT1jVbbFmSlrnVTeEsKNPwdl&_nc_zt=23&_nc_ht=scontent.flim2-6.fna&_nc_gid=TExMOKnAvR0IIDUGNC2Gqg&oh=00_AfOqOp9BFj9ArlQOkG_gd7Sm1gDYNCSUW7w81FR2uIilMA&oe=6869CDE0');">
+                        <!-- Icono eliminado, la imagen es el fondo. Puedes añadir un ícono si lo deseas. -->
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-blue-900 mb-3">Ingeniería de Llenado de Techo de Calamina</h3>
+                        <p class="text-gray-600 mb-4">Especialización en construcción con calamina.</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm font-medium text-blue-900">Duración: 4 años</span>
+                            <a href="#" class="text-blue-900 hover:text-blue-700 font-medium">Más información →</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300 card-hover">
+                    <div class="h-48 flex items-center justify-center text-white text-5xl program-card-bg" style="background-image: url('https://scontent.flim2-3.fna.fbcdn.net/v/t39.30808-6/514150657_122216799998249993_1830835960809236425_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=127cfc&_nc_eui2=AeH6v9u-FQBW17alqEvXRjVIPuCIgo5lzR0-4IiCjmXNHQJSrlvFFnjzt4iWJE2xwuc0MB7dZrnlumNDe8tjrI_v&_nc_ohc=p1IJJ-2nd0UQ7kNvwEIZWpH&_nc_oc=AdmkBKkRwVJTpujaX7wA0U3LgF18hsVQ1Y0FtJBrHGFNeFIzV84Oup-1sMp9J8bM6zl_I80VujgYi_0ZyBkDFgHi&_nc_zt=23&_nc_ht=scontent.flim2-3.fna&_nc_gid=0LQGvMQH-CLjljwKUzSTgg&oh=00_AfN1qr0wgN5j3Nn-RxRf6z5J5N9tJytcFkz6533biKTddA&oe=6869C22A');">
+                        <!-- Icono eliminado, la imagen es el fondo. Puedes añadir un ícono si lo deseas. -->
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-blue-900 mb-3">Ingeniería de Apuestas</h3>
+                        <p class="text-gray-600 mb-4">Gestión profesional de sistemas de apuestas.</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm font-medium text-blue-900">Duración: 4 años</span>
+                            <a href="#" class="text-blue-900 hover:text-blue-700 font-medium">Más información →</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300 card-hover">
+                    <div class="h-48 flex items-center justify-center text-white text-5xl program-card-bg" style="background-image: url('https://scontent.flim2-2.fna.fbcdn.net/v/t39.30808-6/513681464_122216800472249993_1437153839461606206_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=127cfc&_nc_eui2=AeEKfFcmUsZimXQc_OVEiyToe9nA-XyOPTx72cD5fI49PA6S_UUUkhiaNTzdOvE8nxON_XsT6_dLqt-n1YG_G3vq&_nc_ohc=jFbfXavp57IQ7kNvwGh4_cB&_nc_oc=Adl4vEtHc-o45o1BbawT2Y0y2lLPt6Doxl45oCq6l1DvSGSNzNi4wRGqByA3fdf_m-Wq5kH2DWibe4R4QXiSoByn&_nc_zt=23&_nc_ht=scontent.flim2-2.fna&_nc_gid=v1QtROmLe3w_bIQQaYn6Ng&oh=00_AfN2xk4ohhOllItMPZy-Tyxa2pSsVdtWHvQhGW_hlU9YuQ&oe=6869BF5B');">
+                        <!-- Icono eliminado, la imagen es el fondo. Puedes añadir un ícono si lo deseas. -->
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-blue-900 mb-3">Soldadura de Madera</h3>
+                        <p class="text-gray-600 mb-4">Técnicas avanzadas de unión de materiales maderables.</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm font-medium text-blue-900">Duración: 3 años</span>
+                            <a href="#" class="text-blue-900 hover:text-blue-700 font-medium">Más información →</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300 card-hover">
+                    <div class="h-48 flex items-center justify-center text-white text-5xl program-card-bg" style="background-image: url('https://scontent.flim2-3.fna.fbcdn.net/v/t39.30808-6/514151651_122216800922249993_6224473745086091145_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=127cfc&_nc_eui2=AeE1eANs2qsgz3o8okLBXsjUeIBllaHn1OZ4gGWVoefU5iauTLInokILLhnqPjZP2B4hY-x8wou8lLGuaffsEJBS&_nc_ohc=-FPv5ZQQPmUQ7kNvwHOwXPR&_nc_oc=AdlzncSOAFklgwQbkIqvqajE0dDfpuWY1bTqsoC2LJFC7S8c5yo3VPy9FNYBl91NNApipAn9qT0vCYvF9LvjTBHL&_nc_zt=23&_nc_ht=scontent.flim2-3.fna&_nc_gid=h5r6dq_g_OAaqMZezPVIZg&oh=00_AfOI9UTB8x6GC7TMV797amo4dCMxFmPoFQg2gqne4K8ZRw&oe=6869DF5A');">
+                        <!-- Icono eliminado, la imagen es el fondo. Puedes añadir un ícono si lo deseas. -->
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-blue-900 mb-3">Ingeniería en Armado de Vasitos</h3>
+                        <p class="text-gray-600 mb-4">Diseño y producción de recipientes desechables.</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm font-medium text-blue-900">Duración: 3 años</span>
+                            <a href="#" class="text-blue-900 hover:text-blue-700 font-medium">Más información →</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300 card-hover">
+                    <div class="h-48 flex items-center justify-center text-white text-5xl program-card-bg" style="background-image: url('https://scontent.flim2-1.fna.fbcdn.net/v/t39.30808-6/514262653_122216801462249993_1558543142083227226_n.jpg?_nc_cat=106&ccb=1-7&_nc_sid=127cfc&_nc_eui2=AeER6KAR1Oczr4A-qY4flt9xi57qr_oec9qLnuqv-h5z2mHMUNSS5Ve_V-EMKDBtc0Nvrfru3EIX71HMpu0hjAiC&_nc_ohc=E0Fi2QDKm3IQ7kNvwHve_Nb&_nc_oc=AdmyANApokAa97KT-UKPTdtFyfdrO2xAkrGJgO9bLDysInr9cKXL8-u4BrAe8EiKtSc&_nc_zt=23&_nc_ht=scontent.flim2-1.fna&_nc_gid=DD1AP9pVal668K8bjLhs0Q&oh=00_AfO-HSG72aCWTToyLspsmI7sQvDf5w38ls7gw0xRCuG3SQ&oe=6869D18B');">
+                        <!-- Icono eliminado, la imagen es el fondo. Puedes añadir un ícono si lo deseas. -->
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-blue-900 mb-3">Mecánico de Transformers</h3>
+                        <p class="text-gray-600 mb-4">Mantenimiento de vehículos transformables.</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm font-medium text-blue-900">Duración: 4 años</span>
+                            <a href="#" class="text-blue-900 hover:text-blue-700 font-medium">Más información →</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300 card-hover">
+                    <div class="h-48 flex items-center justify-center text-white text-5xl program-card-bg" style="background-image: url('https://scontent.flim2-1.fna.fbcdn.net/v/t39.30808-6/514363340_122216802014249993_6911306066305327768_n.jpg?_nc_cat=111&ccb=1-7&_nc_sid=127cfc&_nc_eui2=AeHiPcm8XPEGpsQ-TVkMvNB50PUWp0Zk34XQ9RanRmTfhdZjy4z5F6xYJpytrZwTxAWwnumxJ4yahfZddSzq1UJ9&_nc_ohc=BbZSfltFkpwQ7kNvwEmQ5D8&_nc_oc=AdkEw3PPY8z2nsw7uTnSRqQ2JXFo9SWht_cxcZsNH2VyRWqGfQBL2F4FEivLUAK47qrJmBzUtul5WxXh26fVjTzR&_nc_zt=23&_nc_ht=scontent.flim2-1.fna&_nc_gid=Qd3ynmiJrBM4NQ9bYAhrjw&oh=00_AfMPIv_HZJqiCVJ-9bua6HmO-BCGO-vV4Le64844TGcUKA&oe=6869DE8A');">
+                        <!-- Icono eliminado, la imagen es el fondo. Puedes añadir un ícono si lo deseas. -->
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-blue-900 mb-3">Piloto de Carrito Anticuchero</h3>
+                        <p class="text-gray-600 mb-4">Operación de unidades móviles de comida.</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm font-medium text-blue-900">Duración: 2 años</span>
+                            <a href="#" class="text-blue-900 hover:text-blue-700 font-medium">Más información →</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300 card-hover">
+                    <div class="h-48 flex items-center justify-center text-white text-5xl program-card-bg" style="background-image: url('https://scontent.flim2-5.fna.fbcdn.net/v/t39.30808-6/514354079_122216802524249993_5401538850364777402_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=127cfc&_nc_eui2=AeHdFdn188z92A3et7M9eZ0unH7QZdLo9HGcftBl0uj0cbd6OTD1c2slpfwACE6zByO7fRrjbmAvNG5zZceW7Xxj&_nc_ohc=se0z0mgvFN0Q7kNvwHoXy4N&_nc_oc=Admdu5dJjnxHlQXW2gax4yREPNLMk3ub2_QjvXi56Ns707Aj3433EbIm4FM1EF-k6OCzkG7oqhQuONn0I66cHQkq&_nc_zt=23&_nc_ht=scontent.flim2-5.fna&_nc_gid=qDQZ_irMBfD4_evaTo6iBQ&oh=00_AfMmr2iPKBc-4Kys8p4uoTYPQZKWv_wVx4dGweWfthSn5w&oe=6869D6E8');">
+                        <!-- Icono eliminado, la imagen es el fondo. Puedes añadir un ícono si lo deseas. -->
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-blue-900 mb-3">Piloto de Mototaxi</h3>
+                        <p class="text-gray-600 mb-4">Transporte urbano en motocicletas adaptadas.</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm font-medium text-blue-900">Duración: 1 año</span>
+                            <a href="#" class="text-blue-900 hover:text-blue-700 font-medium">Más información →</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300 card-hover">
+                    <div class="h-48 flex items-center justify-center text-white text-5xl program-card-bg" style="background-image: url('URL_DE_TU_IMAGEN_AQUI');">
+                        <!-- Icono eliminado, la imagen es el fondo. Puedes añadir un ícono si lo deseas. -->
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-blue-900 mb-3">Piloto de Combi</h3>
+                        <p class="text-gray-600 mb-4">Manejo profesional de transporte colectivo.</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm font-medium text-blue-900">Duración: 1 año</span>
+                            <a href="#" class="text-blue-900 hover:text-blue-700 font-medium">Más información →</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300 card-hover">
+                    <div class="h-48 flex items-center justify-center text-white text-5xl program-card-bg" style="background-image: url('URL_DE_TU_IMAGEN_AQUI');">
+                        <!-- Icono eliminado, la imagen es el fondo. Puedes añadir un ícono si lo deseas. -->
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-blue-900 mb-3">Ingeniería en Mantenimiento de Tubos</h3>
+                        <p class="text-gray-600 mb-4">Reparación y conservación de sistemas tubulares.</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm font-medium text-blue-900">Duración: 3 años</span>
+                            <a href="#" class="text-blue-900 hover:text-blue-700 font-medium">Más información →</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300 card-hover">
+                    <div class="h-48 flex items-center justify-center text-white text-5xl program-card-bg" style="background-image: url('URL_DE_TU_IMAGEN_AQUI');">
+                        <!-- Icono eliminado, la imagen es el fondo. Puedes añadir un ícono si lo deseas. -->
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-blue-900 mb-3">Mecánico de Carritos Chocones</h3>
+                        <p class="text-gray-600 mb-4">Mantenimiento de vehículos de diversión.</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm font-medium text-blue-900">Duración: 2 años</span>
+                            <a href="#" class="text-blue-900 hover:text-blue-700 font-medium">Más información →</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300 card-hover">
+                    <div class="h-48 flex items-center justify-center text-white text-5xl program-card-bg" style="background-image: url('URL_DE_TU_IMAGEN_AQUI');">
+                        <!-- Icono eliminado, la imagen es el fondo. Puedes añadir un ícono si lo deseas. -->
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-blue-900 mb-3">Diseñador de Waters</h3>
+                        <p class="text-gray-600 mb-4">Creación de espacios acuáticos recreativos.</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm font-medium text-blue-900">Duración: 3 años</span>
+                            <a href="#" class="text-blue-900 hover:text-blue-700 font-medium">Más información →</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Ciencias de la Salud -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300 card-hover">
+                    <div class="h-48 flex items-center justify-center text-white text-5xl program-card-bg" style="background-image: url('URL_DE_TU_IMAGEN_AQUI');">
+                        <!-- Icono eliminado, la imagen es el fondo. Puedes añadir un ícono si lo deseas. -->
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-blue-900 mb-3">Nutricionista de Perros Robóticos</h3>
+                        <p class="text-gray-600 mb-4">Alimentación para mascotas electrónicas.</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm font-medium text-blue-900">Duración: 3 años</span>
+                            <a href="#" class="text-blue-900 hover:text-blue-700 font-medium">Más información →</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300 card-hover">
+                    <div class="h-48 flex items-center justify-center text-white text-5xl program-card-bg" style="background-image: url('URL_DE_TU_IMAGEN_AQUI');">
+                        <!-- Icono eliminado, la imagen es el fondo. Puedes añadir un ícono si lo deseas. -->
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-blue-900 mb-3">Técnico en Vacuna 5G</h3>
+                        <p class="text-gray-600 mb-4">Aplicación de tecnología avanzada en salud.</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm font-medium text-blue-900">Duración: 2 años</span>
+                            <a href="#" class="text-blue-900 hover:text-blue-700 font-medium">Más información →</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300 card-hover">
+                    <div class="h-48 flex items-center justify-center text-white text-5xl program-card-bg" style="background-image: url('URL_DE_TU_IMAGEN_AQUI');">
+                        <!-- Icono eliminado, la imagen es el fondo. Puedes añadir un ícono si lo deseas. -->
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-blue-900 mb-3">Farmacia de Recarga de Saldo</h3>
+                        <p class="text-gray-600 mb-4">Distribución de medicamentos prepago.</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm font-medium text-blue-900">Duración: 3 años</span>
+                            <a href="#" class="text-blue-900 hover:text-blue-700 font-medium">Más información →</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300 card-hover">
+                    <div class="h-48 flex items-center justify-center text-white text-5xl program-card-bg" style="background-image: url('URL_DE_TU_IMAGEN_AQUI');">
+                        <!-- Icono eliminado, la imagen es el fondo. Puedes añadir un ícono si lo deseas. -->
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-blue-900 mb-3">Medicina Astral</h3>
+                        <p class="text-gray-600 mb-4">Terapias basadas en alineación cósmica.</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm font-medium text-blue-900">Duración: 4 años</span>
+                            <a href="#" class="text-blue-900 hover:text-blue-700 font-medium">Más información →</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300 card-hover">
+                    <div class="h-48 flex items-center justify-center text-white text-5xl program-card-bg" style="background-image: url('URL_DE_TU_IMAGEN_AQUI');">
+                        <!-- Icono eliminado, la imagen es el fondo. Puedes añadir un ícono si lo deseas. -->
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-blue-900 mb-3">Obstetricia de Kinesiologas</h3>
+                        <p class="text-gray-600 mb-4">Atención especializada en partos de terapeutas.</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm font-medium text-blue-900">Duración: 4 años</span>
+                            <a href="#" class="text-blue-900 hover:text-blue-700 font-medium">Más información →</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300 card-hover">
+                    <div class="h-48 flex items-center justify-center text-white text-5xl program-card-bg" style="background-image: url('URL_DE_TU_IMAGEN_AQUI');">
+                        <!-- Icono eliminado, la imagen es el fondo. Puedes añadir un ícono si lo deseas. -->
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-blue-900 mb-3">Obstetricia de Abortos</h3>
+                        <p class="text-gray-600 mb-4">Atención especializada en interrupciones.</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm font-medium text-blue-900">Duración: 4 años</span>
+                            <a href="#" class="text-blue-900 hover:text-blue-700 font-medium">Más información →</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300 card-hover">
+                    <div class="h-48 flex items-center justify-center text-white text-5xl program-card-bg" style="background-image: url('URL_DE_TU_IMAGEN_AQUI');">
+                        <!-- Icono eliminado, la imagen es el fondo. Puedes añadir un ícono si lo deseas. -->
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-blue-900 mb-3">Dentista de Gallos Atómicos</h3>
+                        <p class="text-gray-600 mb-4">Odontología para aves radiactivas.</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm font-medium text-blue-900">Duración: 3 años</span>
+                            <a href="#" class="text-blue-900 hover:text-blue-700 font-medium">Más información →</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300 card-hover">
+                    <div class="h-48 flex items-center justify-center text-white text-5xl program-card-bg" style="background-image: url('URL_DE_TU_IMAGEN_AQUI');">
+                        <!-- Icono eliminado, la imagen es el fondo. Puedes añadir un ícono si lo deseas. -->
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-blue-900 mb-3">Investigador Kakologo</h3>
+                        <p class="text-gray-600 mb-4">Estudio científico de materias fecales.</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm font-medium text-blue-900">Duración: 5 años</span>
+                            <a href="#" class="text-blue-900 hover:text-blue-700 font-medium">Más información →</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300 card-hover">
+                    <div class="h-48 flex items-center justify-center text-white text-5xl program-card-bg" style="background-image: url('URL_DE_TU_IMAGEN_AQUI');">
+                        <!-- Icono eliminado, la imagen es el fondo. Puedes añadir un ícono si lo deseas. -->
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-blue-900 mb-3">Inseminación de Llamas</h3>
+                        <p class="text-gray-600 mb-4">Reproducción asistida de camélidos.</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm font-medium text-blue-900">Duración: 3 años</span>
+                            <a href="#" class="text-blue-900 hover:text-blue-700 font-medium">Más información →</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300 card-hover">
+                    <div class="h-48 flex items-center justify-center text-white text-5xl program-card-bg" style="background-image: url('URL_DE_TU_IMAGEN_AQUI');">
+                        <!-- Icono eliminado, la imagen es el fondo. Puedes añadir un ícono si lo deseas. -->
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-blue-900 mb-3">Odontólogo del Ratón Pérez</h3>
+                        <p class="text-gray-600 mb-4">Especialista en dentición infantil mágica.</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm font-medium text-blue-900">Duración: 4 años</span>
+                            <a href="#" class="text-blue-900 hover:text-blue-700 font-medium">Más información →</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300 card-hover">
+                    <div class="h-48 flex items-center justify-center text-white text-5xl program-card-bg" style="background-image: url('URL_DE_TU_IMAGEN_AQUI');">
+                       <!-- Icono eliminado, la imagen es el fondo. Puedes añadir un ícono si lo deseas. -->
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-blue-900 mb-3">Inseminación Profesional de Cuys</h3>
+                        <p class="text-gray-600 mb-4">Reproducción de roedores andinos.</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm font-medium text-blue-900">Duración: 3 años</span>
+                            <a href="#" class="text-blue-900 hover:text-blue-700 font-medium">Más información →</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300 card-hover">
+                    <div class="h-48 flex items-center justify-center text-white text-5xl program-card-bg" style="background-image: url('URL_DE_TU_IMAGEN_AQUI');">
+                        <!-- Icono eliminado, la imagen es el fondo. Puedes añadir un ícono si lo deseas. -->
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-blue-900 mb-3">Crianza de Leche Ajena</h3>
+                        <p class="text-gray-600 mb-4">Gestión de lactancia materna externa.</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm font-medium text-blue-900">Duración: 2 años</span>
+                            <a href="#" class="text-blue-900 hover:text-blue-700 font-medium">Más información →</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300 card-hover">
+                    <div class="h-48 flex items-center justify-center text-white text-5xl program-card-bg" style="background-image: url('URL_DE_TU_IMAGEN_AQUI');">
+                        <!-- Icono eliminado, la imagen es el fondo. Puedes añadir un ícono si lo deseas. -->
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-blue-900 mb-3">KCHA Burras</h3>
+                        <p class="text-gray-600 mb-4">Manejo de equinos femeninos.</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm font-medium text-blue-900">Duración: 2 años</span>
+                            <a href="#" class="text-blue-900 hover:text-blue-700 font-medium">Más información →</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-12">
+                <a href="#" class="inline-block bg-blue-900 hover:bg-blue-800 text-white font-bold py-3 px-8 rounded-full transition duration-300 transform hover:scale-105">
+                    Ver todos los programas
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="py-20 bg-gray-50" id="contacto">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-blue-900 mb-4">Contáctanos</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">Estamos aquí para responder tus preguntas y guiarte en tu proceso de admisión.</p>
+            </div>
+            
+            <div class="flex flex-col md:flex-row">
+                <div class="md:w-1/2 mb-10 md:mb-0">
+                    <div class="bg-white rounded-lg shadow-md p-8 h-full">
+                        <h3 class="text-xl font-bold text-blue-900 mb-6">Información de contacto</h3>
+                        
+                        <div class="space-y-6">
+                            <div class="flex items-start">
+                                <div class="flex-shrink-0 text-blue-900 mt-1">
+                                    <i class="fas fa-map-marker-alt text-xl"></i>
+                                </div>
+                                <div class="ml-4">
+                                    <h4 class="text-lg font-medium text-gray-900">Dirección</h4>
+                                    <p class="text-gray-600">Av. Universitaria 1234, Lima, Perú</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start">
+                                <div class="flex-shrink-0 text-blue-900 mt-1">
+                                    <i class="fas fa-phone-alt text-xl"></i>
+                                </div>
+                                <div class="ml-4">
+                                    <h4 class="text-lg font-medium text-gray-900">Teléfono</h4>
+                                    <p class="text-gray-600">+56 9 6702 8321</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start">
+                                <div class="flex-shrink-0 text-blue-900 mt-1">
+                                    <i class="fas fa-envelope text-xl"></i>
+                                </div>
+                                <div class="ml-4">
+                                    <h4 class="text-lg font-medium text-gray-900">Email</h4>
+                                    <p class="text-gray-600">admision@jplc.edu.pe</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start">
+                                <div class="flex-shrink-0 text-blue-900 mt-1">
+                                    <i class="fas fa-clock text-xl"></i>
+                                </div>
+                                <div class="ml-4">
+                                    <h4 class="text-lg font-medium text-gray-900">Horario de atención</h4>
+                                    <p class="text-gray-600">Lunes a Viernes: 8:00 am - 6:00 pm<br>Sábados: 9:00 am - 1:00 pm</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-8">
+                            <h4 class="text-lg font-medium text-gray-900 mb-4">Síguenos en redes sociales</h4>
+                            <div class="flex space-x-4">
+                                <a href="#" class="w-10 h-10 rounded-full bg-blue-100 text-blue-900 flex items-center justify-center hover:bg-blue-200 transition">
+                                    <i class="fab fa-facebook-f"></i>
+                                </a>
+                                <a href="#" class="w-10 h-10 rounded-full bg-blue-100 text-blue-900 flex items-center justify-center hover:bg-blue-200 transition">
+                                    <i class="fab fa-twitter"></i>
+                                </a>
+                                <a href="#" class="w-10 h-10 rounded-full bg-blue-100 text-blue-900 flex items-center justify-center hover:bg-blue-200 transition">
+                                    <i class="fab fa-instagram"></i>
+                                </a>
+                                <a href="#" class="w-10 h-10 rounded-full bg-blue-100 text-blue-900 flex items-center justify-center hover:bg-blue-200 transition">
+                                    <i class="fab fa-linkedin-in"></i>
+                                </a>
+                                <a href="#" class="w-10 h-10 rounded-full bg-blue-100 text-blue-900 flex items-center justify-center hover:bg-blue-200 transition">
+                                    <i class="fab fa-youtube"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="md:w-1/2 md:pl-10">
+                    <div class="bg-white rounded-lg shadow-md p-8 h-full">
+                        <h3 class="text-xl font-bold text-blue-900 mb-6">Envíanos un mensaje</h3>
+                        <form>
+                            <div class="mb-6">
+                                <label for="name" class="block text-gray-700 font-medium mb-2">Nombre completo</label>
+                                <input type="text" id="name" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                            </div>
+                            
+                            <div class="mb-6">
+                                <label for="email" class="block text-gray-700 font-medium mb-2">Correo electrónico</label>
+                                <input type="email" id="email" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                            </div>
+                            
+                            <div class="mb-6">
+                                <label for="phone" class="block text-gray-700 font-medium mb-2">Teléfono</label>
+                                <input type="tel" id="phone" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                            </div>
+                             
+                            <div class="mb-6">
+                                <label for="program" class="block text-gray-700 font-medium mb-2">Programa de interés</label>
+                                <select id="program" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                    <option value="">Selecciona un programa</option>
+                                    <option value="techo">Ingeniería de Llenado de Techo de Calamina</option>
+                                    <option value="apuestas">Ingeniería de Apuestas</option>
+                                    <option value="madera">Soldadura de Madera</option>
+                                    <option value="vasitos">Ingeniería en Armado de Vasitos</option>
+                                    <option value="transformers">Mecánico de Transformers</option>
+                                    <option value="anticuchero">Piloto de Carrito Anticuchero</option>
+                                </select>
+                            </div>
+                            
+                            <div class="mb-6">
+                                <label for="message" class="block text-gray-700 font-medium mb-2">Mensaje</label>
+                                <textarea id="message" rows="4" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"></textarea>
+                            </div>
+                            
+                            <button type="submit" class="w-full bg-blue-900 hover:bg-blue-800 text-white font-bold py-3 px-4 rounded-lg transition duration-300 transform hover:scale-105">
+                                Enviar mensaje
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <div class="flex items-center mb-4">
+                        <!-- Logo de la universidad en el footer -->
+                        <img id="footerLogo" src="https://scontent.flim2-6.fna.fbcdn.net/v/t39.30808-1/466079839_122129913590439225_422388642053743968_n.jpg?stp=dst-jpg_s200x200_tt6&_nc_cat=107&ccb=1-7&_nc_sid=e99d92&_nc_eui2=AeEf6ZL69hJOb7nqmSnNqQpyqu6VQdCUvRSq7pVB0JS9FPKpO4-UvXHSBYultdnGmZ_uUUT13lkbGoeu-fIg3gRv&_nc_ohc=bTiMg5HbkXYQ7kNvwG59_Le&_nc_oc=AdkfQ1LV-WFTHdWLGdkOG15Wf_QuYDGSNtvQCAzMP-7stmmT8JGiHNLdFMLV7wWN-qBA0YLb_QV2iniue305vd8o&_nc_zt=24&_nc_ht=scontent.flim2-6.fna&_nc_gid=Kxtdprn-O-HmXtkF1PVUgA&oh=00_AfMIbOUj3q5bCcBTo45HwbN_6vOf4gcKdpkbVoLh5p31yA&oe=6869222F" alt="Logo JPLC" class="w-12 h-12 rounded-full mr-3 object-cover">
+                        <div>
+                            <h3 class="text-xl font-bold">Jesus Pari Lujan Carrion</h3>
+                        </div>
+                    </div>
+                    <p class="text-gray-400">Universidad comprometida con la excelencia académica, la investigación y la formación integral de profesionales líderes.</p>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-bold mb-4">Enlaces rápidos</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Biblioteca virtual</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Campus virtual</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">
+                            <!-- Placeholder para más enlaces -->
+                        </a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-bold mb-4">Programas</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Ingeniería</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Ciencias de la Salud</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Negocios</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Ciencias Humanas</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-bold mb-4">Contacto</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">admision@jplc.edu.pe</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">+56 9 6702 8321</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Av. Universitaria 1234, Lima</a></li>
+                    </ul>
+                    <div class="flex space-x-4 mt-6">
+                        <a href="#" class="w-8 h-8 rounded-full bg-gray-700 text-white flex items-center justify-center hover:bg-blue-500 transition">
+                            <i class="fab fa-facebook-f text-sm"></i>
+                        </a>
+                        <a href="#" class="w-8 h-8 rounded-full bg-gray-700 text-white flex items-center justify-center hover:bg-blue-400 transition">
+                            <i class="fab fa-twitter text-sm"></i>
+                        </a>
+                        <a href="#" class="w-8 h-8 rounded-full bg-gray-700 text-white flex items-center justify-center hover:bg-pink-500 transition">
+                            <i class="fab fa-instagram text-sm"></i>
+                        </a>
+                        <a href="#" class="w-8 h-8 rounded-full bg-gray-700 text-white flex items-center justify-center hover:bg-blue-700 transition">
+                            <i class="fab fa-linkedin-in text-sm"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center mt-8 text-gray-500 text-sm">
+                &copy; 2025 Universidad Jesus Pari Lujan Carrion. Todos los derechos reservados.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modal del Examen de Admisión -->
+    <div id="examModal" class="exam-modal">
+        <div class="exam-modal-content">
+            <span class="close-exam">&times;</span>
+            <h2 class="text-2xl font-bold text-blue-900 mb-6">Examen de Admisión</h2>
+            
+            <form id="examForm">
+                <!-- Pregunta 1 -->
+                <div class="exam-question">
+                    <p class="font-medium mb-3">1. ¿Cuántas horas tomaría caminar de Chile a Perú?</p>
+                    <div class="space-y-2">
+                        <label class="flex items-center">
+                            <input type="radio" name="q1" value="A" class="mr-2" required>
+                            A) Depende si voy corriendo xd
+                        </label>
+                        <label class="flex items-center">
+                            <input type="radio" name="q1" value="B" class="mr-2">
+                            B) Muchas horas xddd
+                        </label>
+                        <label class="flex items-center">
+                            <input type="radio" name="q1" value="C" class="mr-2">
+                            C) 2 meses x si me wuebeoo y me voy a otro país xd
+                        </label>
+                        <label class="flex items-center">
+                            <input type="radio" name="q1" value="D" class="mr-2">
+                            D) 1 mes
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Pregunta 2 -->
+                <div class="exam-question">
+                    <p class="font-medium mb-3">2. ¿Por qué a Pari le dicen kbrito pooo, po kbrito?</p>
+                    <div class="space-y-2">
+                        <label class="flex items-center">
+                            <input type="radio" name="q2" value="A" class="mr-2" required>
+                            A) Porque kbroo significa causa en Perú
+                        </label>
+                        <label class="flex items-center">
+                            <input type="radio" name="q2" value="B" class="mr-2">
+                            B) Porque Pari es kbrito
+                        </label>
+                        <label class="flex items-center">
+                            <input type="radio" name="q2" value="C" class="mr-2">
+                            C) Porque a Pari le hacían bullying en Chile y le decían así
+                        </label>
+                        <label class="flex items-center">
+                            <input type="radio" name="q2" value="D" class="mr-2">
+                            D) No hay solución
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Pregunta 3 -->
+                <div class="exam-question">
+                    <p class="font-medium mb-3">3. ¿Por qué se dice que a Pari lo quisieron violar en la playa?</p>
+                    <div class="space-y-2">
+                        <label class="flex items-center">
+                            <input type="radio" name="q3" value="A" class="mr-2" required>
+                            A) Porque el amigo de Pari contó una historia que Pari le temía a la wuaka xdd
+                        </label>
+                        <label class="flex items-center">
+                            <input type="radio" name="q3" value="B" class="mr-2">
+                            B) Porque el hermano de Pari le contó que esos kbros le podían hacer algo a Pari
+                        </label>
+                        <label class="flex items-center">
+                            <input type="radio" name="q3" value="C" class="mr-2">
+                            C) Porque ahh a Pari ya lo violaron esos kbros xddd
+                        </label>
+                        <label class="flex items-center">
+                            <input type="radio" name="q3" value="D" class="mr-2">
+                            D) Porque Pari fue a la playa con Chinchay y casi los violan
+                        </label>
+                        <label class="flex items-center">
+                            <input type="radio" name="q3" value="E" class="mr-2">
+                            E) Xq casi violan a Pari en la playa XD
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Pregunta 4 -->
+                <div class="exam-question">
+                    <p class="font-medium mb-3">4. ¿Por qué Pari no vino a clases como en 2 bimestres?</p>
+                    <div class="space-y-2">
+                        <label class="flex items-center">
+                            <input type="radio" name="q4" value="A" class="mr-2" required>
+                            A) Porque le dio flojera xd
+                        </label>
+                        <label class="flex items-center">
+                            <input type="radio" name="q4" value="B" class="mr-2">
+                            B) Porque taba mal y casi se muere
+                        </label>
+                        <label class="flex items-center">
+                            <input type="radio" name="q4" value="C" class="mr-2">
+                            C) Porque tenía palta con la profesora de ct
+                        </label>
+                        <label class="flex items-center">
+                            <input type="radio" name="q4" value="D" class="mr-2">
+                            D) Porque se demoró caminando de Chile a Perú xd
+                        </label>
+                        <label class="flex items-center">
+                            <input type="radio" name="q4" value="E" class="mr-2">
+                            E) No hay solución
+                        </label>
+                    </div>
+                </div>
+
+                <button type="submit" class="w-full bg-blue-900 hover:bg-blue-800 text-white font-bold py-3 px-4 rounded-lg transition duration-300 transform hover:scale-105">
+                                Enviar Respuestas
+                            </button>
+            </form>
+
+            <div id="examResult" class="exam-result"></div>
+        </div>
+    </div>
+
+    <script>
+        // Open exam modal from different links
+        const openExamModal = (e) => {
+            e.preventDefault();
+            document.getElementById('examModal').style.display = 'flex'; // Changed to flex for centering
+            document.getElementById('examForm').reset();
+            document.getElementById('examResult').style.display = 'none';
+        };
+
+        // Assign events to all exam links
+        // Make sure these IDs exist in your HTML
+        const examLink = document.getElementById('examLink');
+        if (examLink) examLink.addEventListener('click', openExamModal);
+
+        const examLinkMobile = document.getElementById('examLinkMobile');
+        if (examLinkMobile) examLinkMobile.addEventListener('click', openExamModal);
+
+        const examLinkHero = document.getElementById('examLinkHero');
+        if (examLinkHero) examLinkHero.addEventListener('click', openExamModal);
+
+
+        // Close modal
+        document.querySelector('.close-exam').addEventListener('click', function() {
+            document.getElementById('examModal').style.display = 'none';
+        });
+
+        // Close on click outside modal
+        window.addEventListener('click', function(e) {
+            if (e.target === document.getElementById('examModal')) {
+                document.getElementById('examModal').style.display = 'none';
+            }
+        });
+
+        // Exam validation
+        document.getElementById('examForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const correctAnswers = {
+                q1: 'B', // Many hours xddd
+                q2: 'D', // No solution
+                q3: 'E', // Because Pari was almost violated on the beach XD
+                q4: 'B'  // Because he was sick and almost died
+            };
+            
+            let score = 0;
+            for (let i = 1; i <= 4; i++) {
+                const selected = document.querySelector(`input[name="q${i}"]:checked`);
+                if (selected && selected.value === correctAnswers[`q${i}`]) {
+                    score += 5; // 5 points per question (20 total)
+                }
+            }
+            
+            const resultDiv = document.getElementById('examResult');
+            resultDiv.style.display = 'block';
+            
+            if (score >= 11) {
+                resultDiv.className = 'exam-result exam-passed';
+                resultDiv.innerHTML = `
+                    <p class="text-2xl">¡Felicidades gaaa! 🎉</p>
+                    <p>Puntuación: <span class="text-3xl font-bold">${score}/20</span></p>
+                    <p>¡Has aprobado el examen de admisión!</p>
+                `;
+            } else {
+                resultDiv.className = 'exam-result exam-failed';
+                resultDiv.innerHTML = `
+                    <p class="text-2xl">Estudia sonso gaaaaaaaaa 😅</p>
+                    <p>Puntuación: <span class="text-3xl font-bold">${score}/20</span></p>
+                    <p>Necesitas 11 puntos para aprobar</p>
+                `;
+            }
+            
+            resultDiv.scrollIntoView({ behavior: 'smooth' });
+        });
+
+        // Mobile menu
+        document.getElementById('menu-btn').addEventListener('click', function() {
+            document.getElementById('mobile-menu').classList.toggle('hidden');
+        });
+    </script>
+</body>
+</html>
